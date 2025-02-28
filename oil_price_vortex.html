@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oil Price Prediction - Vortex Mathematics</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        #result { font-size: 24px; font-weight: bold; color: #007BFF; margin: 20px; }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Oil Price Prediction using Vortex Mathematics</h1>
+    <p>Enter oil prices to see the Vortex sequence and the predicted next value.</p>
+    <input type="text" id="prices" placeholder="Enter prices (comma separated)">
+    <button onclick="predictNext()">Predict Next</button>
+    <div id="result"></div>
+
+    <script>
+        function digitalRoot(num) {
+            while (num >= 10) {
+                num = num.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+            }
+            return num;
+        }
+
+        function predictNext() {
+            let input = document.getElementById("prices").value;
+            let prices = input.split(',').map(price => parseFloat(price.trim()));
+
+            if (prices.some(isNaN)) {
+                document.getElementById("result").innerText = "Please enter valid numbers.";
+                return;
+            }
+
+            let vortexSequence = prices.map(price => digitalRoot(price));
+            let lastIndex = vortexSequence.length - 1;
+            let predictedNext = vortexSequence[lastIndex % vortexSequence.length]; 
+
+            document.getElementById("result").innerHTML = 
+                `<p>Vortex Sequence: ${vortexSequence.join(' → ')}</p>
+                 <p>Predicted Next Value: <strong>${predictedNext}</strong></p>`;
+        }
+    </script>
+</body>
+</html>
